@@ -75,3 +75,41 @@ class LUSolver(object):
             # Finally, the x value is calculated by summing the previous while loop sum and the y value for that
             # row. Then everything is divided by the u matrix value for the corresponding x variable.
             self.vector_x[size - i] = (sum + self.vector_y[size - i]) / self.matrix_u[size - i, size - j]
+
+    # Method 3
+
+    def forward_sub(self):
+        """
+        Calculates y vector from Ly=b using forwards substitution
+
+        Arguments:
+            No inputs
+
+        Returns:
+            No outputs
+
+        Notes:
+            Updates the vector_y attributes
+        """
+
+        # getting the size of the matrix l
+        size = len(self.matrix_l) - 1
+
+        # vector_y is an array of zeros of size+1 rows and 1 column
+        self.vector_y = np.zeros((size + 1, 1))
+
+        # nested for loop that calculates the values of each y and puts them into the vector_y
+        # array replacing the zeros
+        for i in range(size+1):
+            sum = 0
+
+            for j in range(i):
+
+                # sum is a variable that stores the sum of the products of the matrix_l and
+                # the corresponding values of the vector_y
+                sum = sum + (self.matrix_l[i, j]*self.vector_y[j])
+
+                # calculates the value for each row of vector_y
+                self.vector_y[i] = (self.vector_b[i]-sum)/self.matrix_l[i, i]
+
+
