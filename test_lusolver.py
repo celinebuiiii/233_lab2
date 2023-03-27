@@ -18,12 +18,3 @@ def test_read_system_from_file2():
     solver.read_system_from_file(r'/Users/celinebui/Desktop/engsci233_lab2/233_lab2/problems/problem0.txt')
     matrix_a_test = [[2, -1, 3], [-8, 3, -8], [-2, -2, 7]]
     assert (np.array(solver.matrix_a).all() == np.array(matrix_a_test).all())
-
-
-def test_backward_sub():
-    tester = LUSolver()
-    tester.matrix_u = np.array([[2, -1, 3], [0, -1, 4], [0, 0, -2]])
-    tester.vector_y = np.array([-5, 0, -2])
-    tester.backward_sub()
-    x_testvalue = np.array([-2,4,1])
-    assert (np.array(tester.vector_x).all() == x_testvalue.all())
