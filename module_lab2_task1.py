@@ -23,6 +23,7 @@ class LUSolver(object):
         vector_y : NumPy array
             unique identifier for the vector y.
     """
+
     def __init__(self):
         self.matrix_a = None
         self.matrix_l = None
@@ -63,7 +64,6 @@ class LUSolver(object):
                     count += 1
 
                 line = fp.readline().strip()
-
 
     # Method 4
     def backward_sub(self):
@@ -121,26 +121,24 @@ class LUSolver(object):
 
         # nested for loop that calculates the values of each y and puts them into the vector_y
         # array replacing the zeros
-        for i in range(size+1):
+        for i in range(size + 1):
             sum = 0
 
             for j in range(i):
-
                 # sum is a variable that stores the sum of the products of the matrix_l and
                 # the corresponding values of the vector_y
-                sum = sum + (self.matrix_l[i, j]*self.vector_y[j])
+                sum = sum + (self.matrix_l[i, j] * self.vector_y[j])
 
                 # calculates the value for each row of vector_y
-                self.vector_y[i] = (self.vector_b[i]-sum)/self.matrix_l[i, i]
+                self.vector_y[i] = (self.vector_b[i] - sum) / self.matrix_l[i, i]
 
+    def write_solution_to_file(self, f_path):
+        with open(f_path, 'w') as fp:
+            n = self.vector_x.shape[0]
 
-   def write_solution_to_file(self, f_path):
-       with open(f_path, 'w') as fp:
-           n = self.vector_x.shape[0]
+            count = 0
+            while count < n:
+                fp.write(f"{self.vector_x[count]}\n")
 
-           count = 0
-           while count < n:
-               fp.write(f"{self.vector_x[count]}\n")
-
-           if count == n:
-               fp.write(f"")
+            if count == n:
+                fp.write(f"")
