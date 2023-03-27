@@ -11,13 +11,6 @@ class LUSolver(object):
         self.vector_x = None
         self.vector_y = None
 
-    def __repr__(self):
-        return f'LU factorisation for {self.matrix_a} with {self.vector_b}:' \
-               f'L matrix: {self.matrix_l}' \
-               f'U matrix: {self.matrix_u}' \
-               f'Ly = b gives a y-vector of: {self.vector_y}' \
-               f'Ux = y gives a solution x-vector of: {self.vector_x}'
-
     def read_system_from_file(self, f_path):
         with open(f_path, 'r') as fp:
             # get number of unknowns
