@@ -22,6 +22,20 @@ class LUSolver(object):
             unique identifier for the vector x.
         vector_y : NumPy array
             unique identifier for the vector y.
+
+        METHODS:
+        -------
+        read_system_from_file
+            Read a system of linear equations from a file along with vector b.
+        lu_factors
+            Perform row subtraction / Gaussian elimination for matrixes L and U.
+        forward_sub
+            Calculates vector y using Ly = b
+        backward_sub
+            Calculates solution vector v using Ux = y
+        write_solution_to_file
+            Write solution vector x into a solution file in the solutions folder
+
     """
 
     def __init__(self):
@@ -41,6 +55,7 @@ class LUSolver(object):
 
     # method 1
     def read_system_from_file(self, f_path):
+
         with open(f_path, 'r') as fp:
             # get number of unknowns
             n = int(fp.readline().strip())
