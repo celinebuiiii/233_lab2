@@ -134,4 +134,13 @@ class LUSolver(object):
                 self.vector_y[i] = (self.vector_b[i]-sum)/self.matrix_l[i, i]
 
 
+   def write_solution_to_file(self, f_path):
+       with open(f_path, 'w') as fp:
+           n = self.vector_x.shape[0]
 
+           count = 0
+           while count < n:
+               fp.write(f"{self.vector_x[count]}\n")
+
+           if count == n:
+               fp.write(f"")
