@@ -3,6 +3,24 @@ import numpy as np
 
 
 class LUSolver(object):
+    """
+        Object representing a system of linear questions.
+
+        Attributes:
+        -----------
+        matrix_a : NumPy array
+            unique identifier for the starting matrix A.
+        matrix_l : NumPy array
+            unique identifier for the matrix L.
+        matrix_u : NumPy array
+            unique identifier for the matrix U.
+        vector_b : NumPy array
+            unique identifier for the starting vector b.
+        vector_x : NumPy array
+            unique identifier for the vector x.
+        vector_y : NumPy array
+            unique identifier for the vector y.
+    """
     def __init__(self):
         self.matrix_a = None
         self.matrix_l = None
@@ -23,6 +41,8 @@ class LUSolver(object):
         with open(f_path, 'r') as fp:
             # get number of unknowns
             n = int(fp.readline().strip())
+
+            # initialise zeroes arrays
             self.matrix_a = np.zeros((n, n), dtype='int32')
             self.vector_b = np.zeros((n, 1), dtype='int32')
             line = fp.readline().strip()
@@ -42,3 +62,13 @@ class LUSolver(object):
 
                 line = fp.readline().strip()
 
+    def write_solution_to_file(self, f_path):
+        with open(f_path, 'w') as fp:
+            n = self.vector_x.shape[0]
+
+            count = 0
+            while count < n:
+                fp.write(f"{self.vector_x[count]}\n")
+
+            if count == n:
+                fp.write(f"")
