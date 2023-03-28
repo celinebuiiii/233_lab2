@@ -8,16 +8,29 @@ from module_lab2_task1 import *
 def test_read_system_from_file1():
     solver = LUSolver()
     solver.read_system_from_file(r'/Users/celinebui/Desktop/engsci233_lab2/233_lab2/problems/problem0.txt')
-    b_test = [[-5], [20], [3]]
-    assert (np.array(solver.vector_b).all() == np.array(b_test).all())
+    b_test = np.array([[-5], [20], [3]])
+    test_var = np.array((solver.vector_b == b_test).all())
+    assert (test_var == 1)
 
 
-# test for matrix A
+# test1 for matrix A
 def test_read_system_from_file2():
+    # expected a return of true (two matrix are the same)
     solver = LUSolver()
     solver.read_system_from_file(r'/Users/celinebui/Desktop/engsci233_lab2/233_lab2/problems/problem0.txt')
     matrix_a_test = [[2, -1, 3], [-8, 3, -8], [-2, -2, 7]]
-    assert (np.array(solver.matrix_a).all() == np.array(matrix_a_test).all())
+    test_var = np.array((solver.matrix_a == matrix_a_test).all())
+    assert (test_var == 1)
+
+
+# test2 for matrix A
+def test_read_system_from_file3():
+    # expected a return of false (two matrix are not the same)
+    solver = LUSolver()
+    solver.read_system_from_file(r'/Users/celinebui/Desktop/engsci233_lab2/233_lab2/problems/problem0.txt')
+    matrix_a_test = [[0, -1, 3], [-8, 0, -8], [-2, -2, 1]]
+    test_var = np.array((solver.matrix_a == matrix_a_test).all())
+    assert (test_var == 0)
 
 
 def test_backward_sub():
@@ -25,8 +38,9 @@ def test_backward_sub():
     tester.matrix_u = np.array([[2, -1, 3], [0, -1, 4], [0, 0, -2]])
     tester.vector_y = np.array([-5, 0, -2])
     tester.backward_sub()
-    x_testvalue = np.array([-2, 4, 1])
-    assert (np.array(tester.vector_x).all() == x_testvalue.all())
+    x_testvalue = np.array([[-2], [4], [1]])
+    testValue = (tester.vector_x == x_testvalue).all()
+    assert (testValue == 1)
 
 
 def test_forward_sub():
