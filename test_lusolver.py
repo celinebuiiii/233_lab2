@@ -8,8 +8,9 @@ from module_lab2_task1 import *
 def test_read_system_from_file1():
     solver = LUSolver()
     solver.read_system_from_file(r'/Users/celinebui/Desktop/engsci233_lab2/233_lab2/problems/problem0.txt')
-    b_test = [[-5], [20], [3]]
-    assert (np.array(solver.vector_b).all() == np.array(b_test).all())
+    b_test = np.array([[-5], [20], [3]])
+    test_var = np.array((solver.vector_b == b_test).all())
+    assert (test_var == 0)
 
 
 # test for matrix A

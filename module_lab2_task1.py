@@ -1,5 +1,5 @@
 import numpy as np
-
+from glob import glob
 
 # additional imports here
 
@@ -69,6 +69,7 @@ class LUSolver(object):
             count = 0
             while line != '':
                 if count < n:
+
                     a_values = line.split(',')
                     self.matrix_a[count] = np.array(a_values)
                     count += 1
@@ -80,6 +81,7 @@ class LUSolver(object):
 
                 line = fp.readline().strip()
 
+            print('\n', self.vector_b)
     # Method 4
     def backward_sub(self):
         """
@@ -113,7 +115,6 @@ class LUSolver(object):
             self.vector_x[size - i] = (sum + self.vector_y[size - i]) / self.matrix_u[size - i, size - j]
 
     # Method 3
-
     def forward_sub(self):
         """
         Calculates y vector from Ly=b using forwards substitution
@@ -149,8 +150,7 @@ class LUSolver(object):
 
     def write_solution_to_file(self, f_path):
         with open(f_path, 'w') as fp:
-            n = self.vector_x.shape[0]
-
+            n = self.vector_x[0]
             count = 0
             while count < n:
                 fp.write(f"{self.vector_x[count]}\n")
