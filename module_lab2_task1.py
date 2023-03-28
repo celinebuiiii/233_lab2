@@ -140,6 +140,7 @@ class LUSolver(object):
         for i in range(size):
             sum = 0
 
+            # range function automatically goes from 0 to i-1
             for j in range(i):
                 # sum is a variable that stores the sum of the products of the matrix_l and
                 # the corresponding values of the vector_y
