@@ -133,13 +133,14 @@ class LUSolver(object):
         size = len(self.matrix_l)
 
         # vector_y is an array of zeros of size+1 rows and 1 column
-        self.vector_y = np.zeros(size, 1)
+        self.vector_y = np.zeros((size, 1))
 
         # nested for loop that calculates the values of each y and puts them into the vector_y
         # array replacing the zeros
         for i in range(size):
             sum = 0
 
+            # range function automatically goes from 0 to i-1
             for j in range(i):
                 # sum is a variable that stores the sum of the products of the matrix_l and
                 # the corresponding values of the vector_y
