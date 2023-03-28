@@ -1,5 +1,5 @@
 import numpy as np
-
+from glob import glob
 
 # additional imports here
 
@@ -69,6 +69,7 @@ class LUSolver(object):
             count = 0
             while line != '':
                 if count < n:
+
                     a_values = line.split(',')
                     self.matrix_a[count] = np.array(a_values)
                     count += 1
@@ -150,10 +151,10 @@ class LUSolver(object):
                 j = j + 1
             # Finally, the x value is calculated by summing the previous while loop sum and the y value for that
             # row. Then everything is divided by the u matrix value for the corresponding x variable.
-            self.vector_x[size - i] = (sum + self.vector_y[size - i]) / self.matrix_u[size - i, size - j]
+
+            self.vector_x[size - i] = (self.vector_y[size - i]-sum) / self.matrix_u[size - i, size - j]
 
     # Method 3
-
     def forward_sub(self):
         """
         Calculates y vector from Ly=b using forwards substitution
@@ -169,31 +170,38 @@ class LUSolver(object):
         """
 
         # getting the size of the matrix l
-        size = len(self.matrix_l) - 1
+        size = len(self.matrix_l)
 
         # vector_y is an array of zeros of size+1 rows and 1 column
-        self.vector_y = np.zeros((size + 1, 1))
+        self.vector_y = np.zeros((size, 1))
 
         # nested for loop that calculates the values of each y and puts them into the vector_y
         # array replacing the zeros
-        for i in range(size + 1):
+        for i in range(0, size):
             sum = 0
 
-            for j in range(i):
+            # for loop multiplies all calculated y values with its corresponding L value, so that we
+            # can use it to calculate the next y value
+            # range function automatically goes from 0 to i-1
+            for j in range(0, i):
                 # sum is a variable that stores the sum of the products of the matrix_l and
                 # the corresponding values of the vector_y
-                sum = sum + (self.matrix_l[i, j] * self.vector_y[j])
+                sum = sum + self.matrix_l[i, j] * self.vector_y[j]
 
-                # calculates the value for each row of vector_y
-                self.vector_y[i] = (self.vector_b[i] - sum) / self.matrix_l[i, i]
+            # calculates the value for each row of vector_y
+            self.vector_y[i] = (self.vector_b[i] - sum) / self.matrix_l[i, i]
 
     def write_solution_to_file(self, f_path):
         with open(f_path, 'w') as fp:
-            n = self.vector_x.shape[0]
+            n = len(self.vector_x)
 
             count = 0
+            # loop thru vector x
             while count < n:
-                fp.write(f"{self.vector_x[count]}\n")
-
+                write_val = str(self.vector_x[count])
+                fp.write(f"{write_val.strip('[]')}\n")
+                count += 1
+            
+            # blank line at end of file
             if count == n:
                 fp.write(f"")
