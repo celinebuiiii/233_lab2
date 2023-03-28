@@ -137,16 +137,18 @@ class LUSolver(object):
 
         # nested for loop that calculates the values of each y and puts them into the vector_y
         # array replacing the zeros
-        for i in range(size):
+        for i in range(0, size):
             sum = 0
 
+            # for loop multiplies all calculated y values with its corresponding L value, so that we
+            # can use it to calculate the next y value
             # range function automatically goes from 0 to i-1
-            for j in range(i):
+            for j in range(0, i):
                 # sum is a variable that stores the sum of the products of the matrix_l and
                 # the corresponding values of the vector_y
                 sum = sum + self.matrix_l[i, j] * self.vector_y[j]
 
-                # calculates the value for each row of vector_y
+            # calculates the value for each row of vector_y
             self.vector_y[i] = (self.vector_b[i] - sum) / self.matrix_l[i, i]
 
     def write_solution_to_file(self, f_path):
