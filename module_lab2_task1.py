@@ -80,6 +80,46 @@ class LUSolver(object):
 
                 line = fp.readline().strip()
 
+    # Method 2
+    def lu_solver(self):
+
+        """
+        Uses row substitution to update the arrays' matrix_u and matrix_l for Gaussian Elimination.
+
+        Arguments:
+
+
+        Returns:
+
+
+        Notes:
+            This function has no inputs or outputs. The purpose of this function is to simply update matrix_l and
+            matrix_u.
+
+        """
+
+        # Receive the number of rows and columns in the matrix_a using .shape
+        rows = self.matrix_a.shape[0]
+        cols = self.matrix_a.shape[1]
+        # There is no need to find the number of columns as it is the same as the number of rows. However will make the
+        # function easier to follow
+
+        # Setting up the matrix_u and matrix_l for LU factorisation
+        self.matrix_u = self.matrix_a.copy()
+        self.matrix_l = np.eye(rows, cols)
+        # matrix_u is a copy of matrix_a
+        # matrix_l is set up as an array with ones running diagonally. Made with .eye
+
+        for i in range(rows):
+            # Setting pivot point for the first column to use during the row subtraction operations. With two for loops,
+            # the row subtraction operations can happen within the first row until the end before moving on to the next
+            # column for the next row subtraction
+            pivot_point = self.matrix_u[i, i]
+            for j in range(i + 1, cols):
+                # Finding the value of the elements under the pivot points to be put in the matrix_l
+                self.matrix_l[j, i] = self.matrix_u[j, i] / pivot_point
+                self.matrix_u[j] = self.matrix_u[j] - self.matrix_l[j, i] * self.matrix_u[i]
+
     # Method 4
     def backward_sub(self):
         """
