@@ -111,6 +111,7 @@ class LUSolver(object):
                 j = j + 1
             # Finally, the x value is calculated by summing the previous while loop sum and the y value for that
             # row. Then everything is divided by the u matrix value for the corresponding x variable.
+
             self.vector_x[size - i] = (self.vector_y[size - i]-sum) / self.matrix_u[size - i, size - j]
 
     # Method 3
