@@ -81,7 +81,6 @@ class LUSolver(object):
 
                 line = fp.readline().strip()
 
-            print('\n', self.vector_b)
     # Method 4
     def backward_sub(self):
         """
