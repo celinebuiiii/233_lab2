@@ -55,16 +55,21 @@ def test_forward_sub():
 
 def test_write_sol_to_file():
     solver = LUSolver()
-    file_path = r'/Users/celinebui/Desktop/engsci233_lab2/233_lab2/solutions'
+    file_path = r'/Users/celinebui/Desktop/engsci233_lab2/233_lab2/method5_test.txt'
     solver.vector_x = [[-2], [4], [1]]
+    # write solution to file in column
     solver.write_solution_to_file(file_path)
 
+    # open the newly created file in read mode to check for written data
     with open(file_path, 'r') as fp:
         line = fp.readline().strip()
         vector_x_test = np.zeros((3, 1), dtype='int32')
         count = 0
+
         while line != '':
             vector_x_test[count] = np.array(line)
             count += 1
-    assert (np.array(vector_x_test).all() == np.array(solver.vector_x).all())
+
+    test_var = (vector_x_test == solver.vector_x).all()
+    assert (test_var == 1)
 

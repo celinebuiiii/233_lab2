@@ -133,7 +133,7 @@ class LUSolver(object):
         size = len(self.matrix_l)
 
         # vector_y is an array of zeros of size+1 rows and 1 column
-        self.vector_y = np.zeros(size, 1)
+        self.vector_y = np.zeros((size, 1))
 
         # nested for loop that calculates the values of each y and puts them into the vector_y
         # array replacing the zeros
@@ -150,7 +150,7 @@ class LUSolver(object):
 
     def write_solution_to_file(self, f_path):
         with open(f_path, 'w') as fp:
-            n = self.vector_x[0]
+            n = len(self.vector_x)
             count = 0
             while count < n:
                 fp.write(f"{self.vector_x[count]}\n")
