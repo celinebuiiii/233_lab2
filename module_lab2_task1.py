@@ -152,9 +152,14 @@ class LUSolver(object):
     def write_solution_to_file(self, f_path):
         with open(f_path, 'w') as fp:
             n = len(self.vector_x)
-            count = 0
-            while count < n:
-                fp.write(f"{self.vector_x[count]}\n")
 
+            count = 0
+            # loop thru vector x
+            while count < n:
+                write_val = str(self.vector_x[count])
+                fp.write(f"{write_val.strip('[]')}\n")
+                count += 1
+            
+            # blank line at end of file
             if count == n:
                 fp.write(f"")
