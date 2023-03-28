@@ -48,8 +48,9 @@ def test_forward_sub():
     solver.matrix_l = np.array([[1, 0, 0], [-4, 1, 0], [-1, 3, 1]])
     solver.vector_b = np.array([-5, 20, 3])
     solver.forward_sub()
-    correct_y = np.array([[-5, 0, -2]])
-    assert (np.array(solver.vector_y).all() == correct_y.all())
+    correct_y = np.array([[-5], [0], [-2]])
+    testValue = (solver.vector_y == correct_y).all()
+    assert (testValue == 1)
 
 
 def test_write_sol_to_file():

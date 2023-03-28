@@ -130,17 +130,17 @@ class LUSolver(object):
         """
 
         # getting the size of the matrix l
-        size = len(self.matrix_l) - 1
+        size = len(self.matrix_l)
 
         # vector_y is an array of zeros of size+1 rows and 1 column
-        self.vector_y = np.zeros((size + 1, 1))
+        self.vector_y = np.zeros((size, 1))
 
         # nested for loop that calculates the values of each y and puts them into the vector_y
         # array replacing the zeros
-        for i in range(size + 1):
+        for i in range(size):
             sum = 0
 
-            for j in range(i):
+            for j in range(size-1):
                 # sum is a variable that stores the sum of the products of the matrix_l and
                 # the corresponding values of the vector_y
                 sum = sum + (self.matrix_l[i, j] * self.vector_y[j])
