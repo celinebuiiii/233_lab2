@@ -25,8 +25,9 @@ def test_backward_sub():
     tester.matrix_u = np.array([[2, -1, 3], [0, -1, 4], [0, 0, -2]])
     tester.vector_y = np.array([-5, 0, -2])
     tester.backward_sub()
-    x_testvalue = np.array([-2, 4, 1])
-    assert (np.array(tester.vector_x).all() == x_testvalue.all())
+    x_testvalue = np.array([[-2], [4], [1]])
+    testValue = (tester.vector_x == x_testvalue).all()
+    assert (testValue == 1)
 
 
 def test_forward_sub():
