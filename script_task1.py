@@ -24,7 +24,7 @@ for match in glob(os.path.join(currentDirectory, 'problems', '*problem*')):
     solver.lu_solver()
     solver.forward_sub()
     solver.backward_sub()
-    solver.write_solution_to_file(currentDirectory + 'Solutions' + 'solutions'+counterString+'.txt')
+    solver.write_solution_to_file(currentDirectory + 'Solutions' + 'solutions' + counterString + '.txt')
 
 #
 

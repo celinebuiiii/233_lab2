@@ -60,8 +60,6 @@ class LUSolver(object):
             # get number of unknowns
             line = np.array(fp.readline().strip())
             n = np.array(line)
-            print("n val:")
-            print(n)
 
             # initialise zeroes arrays
             size = int(n)
@@ -158,7 +156,6 @@ class LUSolver(object):
 
             self.vector_x[size - i] = (self.vector_y[size - i]-sum) / self.matrix_u[size - i, size - j]
 
-        print(self.vector_x)
     # Method 2
     def lu_solver(self):
         """
