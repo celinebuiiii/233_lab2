@@ -58,26 +58,30 @@ class LUSolver(object):
 
         with open(f_path, 'r') as fp:
             # get number of unknowns
-            n = int(fp.readline().strip())
+            line = np.array(fp.readline().strip())
+            n = np.array(line)
+            print("n val:")
+            print(n)
 
             # initialise zeroes arrays
-            self.matrix_a = np.zeros((n, n), dtype='int32')
-            self.vector_b = np.zeros((n, 1), dtype='int32')
+            size = int(n)
+            self.matrix_a = np.zeros((size, size))
+            self.vector_b = np.zeros((size, 1))
             line = fp.readline().strip()
 
             # loop through the next n lines to get matrix A
-            count = 0
+            j = 0
             while line != '':
-                if count < n:
-
+                if j < size:
                     a_values = line.split(',')
-                    self.matrix_a[count] = np.array(a_values)
-                    count += 1
+                    self.matrix_a[int(j)] = np.array(a_values)
+
+                    j += 1
 
                 else:
                     b_vector = line.strip()
-                    self.vector_b[count - n] = np.array(b_vector)
-                    count += 1
+                    self.vector_b[j - size] = np.array(b_vector)
+                    j += 1
 
                 line = fp.readline().strip()
 
@@ -113,6 +117,40 @@ class LUSolver(object):
             # row. Then everything is divided by the u matrix value for the corresponding x variable.
 
             self.vector_x[size - i] = (self.vector_y[size - i]-sum) / self.matrix_u[size - i, size - j]
+
+        print(self.vector_x)
+    # Method 2
+    def lu_solver(self):
+        """
+        Uses row substitution to update the arrays' matrix_u and matrix_l for Gaussian Elimination.
+        Arguments:
+        Returns:
+        Notes:
+            This function has no inputs or outputs. The purpose of this function is to simply update matrix_l and
+            matrix_u.
+        """
+
+        # Receive the number of rows and columns in the matrix_a using .shape
+        rows = self.matrix_a.shape[0]
+        cols = self.matrix_a.shape[1]
+        # There is no need to find the number of columns as it is the same as the number of rows. However will make the
+        # function easier to follow
+
+        # Setting up the matrix_u and matrix_l for LU factorisation
+        self.matrix_u = self.matrix_a.copy()
+        self.matrix_l = np.eye(rows, cols)
+        # matrix_u is a copy of matrix_a
+        # matrix_l is set up as an array with ones running diagonally. Made with .eye
+
+        for i in range(rows):
+            # Setting pivot point for the first column to use during the row subtraction operations. With two for loops,
+            # the row subtraction operations can happen within the first row until the end before moving on to the next
+            # column for the next row subtraction
+            pivot_point = self.matrix_u[i, i]
+            for j in range(i + 1, cols):
+                # Finding the value of the elements under the pivot points to be put in the matrix_l
+                self.matrix_l[j, i] = self.matrix_u[j, i] / pivot_point
+                self.matrix_u[j] = self.matrix_u[j] - self.matrix_l[j, i] * self.matrix_u[i]
 
     # Method 3
     def forward_sub(self):
@@ -154,12 +192,12 @@ class LUSolver(object):
             n = len(self.vector_x)
 
             count = 0
-            # loop thru vector x
+            # loop through vector x
             while count < n:
                 write_val = str(self.vector_x[count])
                 fp.write(f"{write_val.strip('[]')}\n")
                 count += 1
-            
+
             # blank line at end of file
             if count == n:
                 fp.write(f"")
