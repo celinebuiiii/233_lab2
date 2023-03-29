@@ -77,9 +77,10 @@ def test_write_sol_to_file():
 
 def test_lu_solver():
     solver = LUSolver()
-    test_u = np.array([[2, -1, 3], [0, -1, -4], [0, 0, -2]])
+    test_u = np.array([[2, -1, 3], [0, -1, 4], [0, 0, -2]])
     test_l = np.array([[1, 0, 0], [-4, 1, 0], [-1, 3, 1]])
     solver.matrix_a = np.array([[2, -1, 3], [-8, 3, -8], [-2, -2, 7]])
     solver.lu_solver()
-    assert (np.array(solver.matrix_u).all() == np.array(test_u).all())
+    testvalue = (solver.matrix_u == test_u).all()
+    assert (testvalue == 1)
 
