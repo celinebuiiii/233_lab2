@@ -55,7 +55,16 @@ class LUSolver(object):
 
     # method 1
     def read_system_from_file(self, f_path):
+        """
+            Write object's vector_x attribute to a file, with each value of vector x on a new line.
 
+                Arguments:
+                    f_path: str
+                        path to file where vector_x will be stored
+
+                Notes:
+                    Method has no output.
+                """
         with open(f_path, 'r') as fp:
             # get number of unknowns
             line = np.array(fp.readline().strip())
@@ -65,6 +74,8 @@ class LUSolver(object):
             size = int(n)
             self.matrix_a = np.zeros((size, size))
             self.vector_b = np.zeros((size, 1))
+
+            # get the next line of matrix
             line = fp.readline().strip()
 
             # loop through the next n lines to get matrix A
@@ -73,7 +84,6 @@ class LUSolver(object):
                 if j < size:
                     a_values = line.split(',')
                     self.matrix_a[int(j)] = np.array(a_values)
-
                     j += 1
 
                 else:
@@ -85,19 +95,13 @@ class LUSolver(object):
 
     # Method 2
     def lu_solver(self):
-
         """
         Uses row substitution to update the arrays' matrix_u and matrix_l for Gaussian Elimination.
 
-        Arguments:
-
-
-        Returns:
-
-
         Notes:
-            This function has no inputs or outputs. The purpose of this function is to simply update matrix_l and
-            matrix_u.
+        --------
+            This method has no inputs or outputs. The purpose of this function is to simply update matrix_l and
+            matrix_u from the attribute matrix A of the object.
 
         """
 
@@ -127,11 +131,10 @@ class LUSolver(object):
     def backward_sub(self):
         """
         Calculates the solutions to the x vector using backwards substitution (Ux = y)
-
         --------
 
         Notes:
-        Does not have any inputs or outputs, it just updates the vector x attribute.
+            Does not have any inputs or outputs, it just updates the vector_x attribute.
 
     `   """
 
@@ -156,52 +159,13 @@ class LUSolver(object):
 
             self.vector_x[size - i] = (self.vector_y[size - i]-sum) / self.matrix_u[size - i, size - j]
 
-    # Method 2
-    def lu_solver(self):
-        """
-        Uses row substitution to update the arrays' matrix_u and matrix_l for Gaussian Elimination.
-        Arguments:
-        Returns:
-        Notes:
-            This function has no inputs or outputs. The purpose of this function is to simply update matrix_l and
-            matrix_u.
-        """
-
-        # Receive the number of rows and columns in the matrix_a using .shape
-        rows = self.matrix_a.shape[0]
-        cols = self.matrix_a.shape[1]
-        # There is no need to find the number of columns as it is the same as the number of rows. However will make the
-        # function easier to follow
-
-        # Setting up the matrix_u and matrix_l for LU factorisation
-        self.matrix_u = self.matrix_a.copy()
-        self.matrix_l = np.eye(rows, cols)
-        # matrix_u is a copy of matrix_a
-        # matrix_l is set up as an array with ones running diagonally. Made with .eye
-
-        for i in range(rows):
-            # Setting pivot point for the first column to use during the row subtraction operations. With two for loops,
-            # the row subtraction operations can happen within the first row until the end before moving on to the next
-            # column for the next row subtraction
-            pivot_point = self.matrix_u[i, i]
-            for j in range(i + 1, cols):
-                # Finding the value of the elements under the pivot points to be put in the matrix_l
-                self.matrix_l[j, i] = self.matrix_u[j, i] / pivot_point
-                self.matrix_u[j] = self.matrix_u[j] - self.matrix_l[j, i] * self.matrix_u[i]
-
     # Method 3
     def forward_sub(self):
         """
         Calculates y vector from Ly=b using forwards substitution
 
-        Arguments:
-            No inputs
-
-        Returns:
-            No outputs
-
         Notes:
-            Updates the vector_y attributes
+            Method has no inputs our outputs. Only updates the vector_y attributes of object
         """
 
         # getting the size of the matrix l
@@ -227,6 +191,16 @@ class LUSolver(object):
             self.vector_y[i] = (self.vector_b[i] - sum) / self.matrix_l[i, i]
 
     def write_solution_to_file(self, f_path):
+        """
+        Write object's vector_x attribute to a file, with each value of vector x on a new line.
+
+        Arguments:
+            f_path: str
+                path to file for writing vector_x
+
+        Notes:
+            Method has no output.
+        """
         with open(f_path, 'w') as fp:
             n = len(self.vector_x)
 
