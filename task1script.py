@@ -16,16 +16,16 @@ currentDirectory = os.getcwd()
 
 counter = 0
 
-for match in glob('problems*'):
-    if os.path.isdir(match):
-        for file in glob ('problem*'):
-            solver = LUSolver()
-            solver.read_system_from_file(file)
-            solver.lu_factors()
-            solver.forward_sub()
-            solver.backward_sub()
-            solver.write_solution_to_file(currentDirectory+os.sep+'solutions')
-    break
+for match in glob(os.path.join(currentDirectory,'problems','problem*')):
+    counterString = str(counter)
+    solver = LUSolver()
+    solver.read_system_from_file(match)
+    solver.lu_factors()
+    solver.forward_sub()
+    solver.backward_sub()
+    solver.write_solution_to_file(os.path.join(currentDirectory,'solutions','solutions'+counterString+'.txt'))
+    counter = counter + 1
+
 
 
 
