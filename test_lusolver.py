@@ -19,6 +19,7 @@ def test_read_system_from_file2():
     solver = LUSolver()
     solver.read_system_from_file(r'/Users/celinebui/Desktop/engsci233_lab2/233_lab2/problems/problem0.txt')
     matrix_a_test = [[2, -1, 3], [-8, 3, -8], [-2, -2, 7]]
+    print(solver.matrix_a == matrix_a_test)
     test_var = np.array((solver.matrix_a == matrix_a_test).all())
     assert (test_var == 1)
 
