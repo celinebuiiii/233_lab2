@@ -97,7 +97,7 @@ class LUSolver(object):
 
         Notes:
             This function has no inputs or outputs. The purpose of this function is to simply update matrix_l and
-            matrix_u
+            matrix_u.
 
         """
 
