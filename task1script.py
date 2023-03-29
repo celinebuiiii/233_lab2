@@ -20,7 +20,7 @@ for match in glob(os.path.join(currentDirectory,'problems','problem*')):
     counterString = str(counter)
     solver = LUSolver()
     solver.read_system_from_file(match)
-    solver.lu_factors()
+    solver.lu_solver()
     solver.forward_sub()
     solver.backward_sub()
     solver.write_solution_to_file(os.path.join(currentDirectory,'solutions','solutions'+counterString+'.txt'))
